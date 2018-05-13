@@ -1,4 +1,4 @@
-# SI-IP - Is a A Dynamic DNS updater built on top of AWS Route 53.
+# SI-IP
 
 SI-IP Is a A Dynamic DNS updater built on top of AWS Route 53.
 
