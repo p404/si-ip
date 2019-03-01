@@ -5,10 +5,10 @@ import sys
 import boto3
 import logging
 import argparse
-import ipgetter
 import threading
 import dns.resolver
 import ConfigParser
+from modules import ipgetter
 
 parser = argparse.ArgumentParser(description='SI-IP Minimal Dynamic DNS for AWS Route 53')
 parser.add_argument('-c','--config', help='Loads configuration', required=True)

@@ -1,3 +1,2 @@
 boto3==1.6.3
 dnspython==1.15.0
-ipgetter==0.7
