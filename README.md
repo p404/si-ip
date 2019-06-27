@@ -25,6 +25,7 @@ config.ini
 [global]
 aws_access_key_id     = <AWS KEY>
 aws_secret_access_key = <AWS KEY SECRET>
+local_ip_resolver     = <ifconfig.co or ipgetter>
 [records]
 refresh_interval      = <REFRESH INTERVAL IN SECONDS>
 hosted_zone_id        = <AWS ZONE ID>
