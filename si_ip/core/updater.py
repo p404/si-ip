@@ -25,7 +25,7 @@ class DNSUpdater:
                 })
                 return False
 
-            self.logger.info('IP resolver check successful', extra={
+            self.logger.debug('IP resolver check successful', extra={
                 'operation': 'dependency_check',
                 'component': 'ip_resolver',
                 'ip': test_ip
@@ -34,12 +34,12 @@ class DNSUpdater:
             # Check DNS provider
             try:
                 await self.dns_provider.record_exists(self.config['record_name'])
-                self.logger.info('DNS provider check successful', extra={
+                self.logger.debug('DNS provider check successful', extra={
                     'operation': 'dependency_check',
                     'component': 'dns_provider'
                 })
             except Exception as e:
-                self.logger.error('DNS provider check failed', extra={
+                self.logger.debug('DNS provider check failed', extra={
                     'operation': 'dependency_check',
                     'component': 'dns_provider',
                     'error': str(e),
@@ -87,7 +87,7 @@ class DNSUpdater:
                     'operation': 'record_init'
                 })
             else:
-                self.logger.info('DNS record already exists', extra={
+                self.logger.debug('DNS record already exists', extra={
                     'record_name': self.config['record_name'],
                     'operation': 'record_init'
                 })
@@ -107,13 +107,13 @@ class DNSUpdater:
         """Perform single check and update iteration"""
         try:
             local_ip = await self.ip_resolver.get_ip()
-            self.logger.info('Current IP fetched', extra={
+            self.logger.debug('Current IP fetched', extra={
                 'ip': local_ip,
                 'operation': 'ip_check'
             })
 
             current_ip = await self.dns_provider.get_record_ip(self.config['record_name'])
-            self.logger.info('DNS record IP fetched', extra={
+            self.logger.debug('DNS record IP fetched', extra={
                 'ip': current_ip,
                 'operation': 'dns_check'
             })
@@ -139,7 +139,7 @@ class DNSUpdater:
                         'new_ip': local_ip
                     })
             else:
-                self.logger.info('No IP change detected', extra={
+                self.logger.debug('No IP change detected', extra={
                     'ip': local_ip,
                     'operation': 'ip_check'
                 })
@@ -164,7 +164,7 @@ class DNSUpdater:
                 raise RuntimeError("Record initialization failed")
 
             interval = float(self.config['refresh_interval'])
-            self.logger.info('Starting update loop', extra={
+            self.logger.debug('Starting update loop', extra={
                 'refresh_interval': interval,
                 'operation': 'update_loop'
             })
@@ -186,7 +186,7 @@ class DNSUpdater:
                 elapsed = asyncio.get_event_loop().time() - start_time
                 sleep_time = max(0, interval - elapsed)
                 
-                self.logger.info('Waiting for next check', extra={
+                self.logger.debug('Waiting for next check', extra={
                     'next_check_in': sleep_time,
                     'operation': 'sleep'
                 })
