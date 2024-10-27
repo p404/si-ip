@@ -6,32 +6,40 @@ from .utils.logging import setup_logging
 from .core.updater import DNSUpdater
 
 def main():
-    try:
-        config = load_config()
-        validate_config(config)
-        logger = setup_logging()
-        updater = DNSUpdater(config, logger)
-        
-        logger.info('Starting SI-IP', extra={
-            'config': {k: '***' if 'key' in k else v for k, v in config.items()},
-            'operation': 'startup'
-        })
-        
-        asyncio.run(updater.run())
-        
-    except KeyboardInterrupt:
-        logger.info('Shutting down SI-IP', extra={
-            'operation': 'shutdown',
-            'shutdown_type': 'user_initiated'
-        })
-        return 0
-    except Exception as e:
-        logger.error('Fatal error', extra={
-            'error': str(e),
-            'error_type': type(e).__name__,
-            'operation': 'startup'
-        })
-        return 1
+   try:
+       config = load_config()
+       validate_config(config)
+       logger = setup_logging()
+       updater = DNSUpdater(config, logger)
+       
+       logger.info('Starting SI-IP', extra={
+           'config': {k: '***' if 'key' in k else v for k, v in config.items()},
+           'operation': 'startup',
+           'provider': config['provider'].upper(),
+           'refresh_interval': f"{config['refresh_interval']}s"
+       })
+       
+       logger.info(f"Starting Dynamic DNS with {config['provider'].upper()} provider (checking every {config['refresh_interval']}s)", extra={
+           'operation': 'startup_details',
+           'provider': config['provider'].upper(),
+           'refresh_interval': config['refresh_interval']
+       })
+       
+       asyncio.run(updater.run())
+       
+   except KeyboardInterrupt:
+       logger.info('Shutting down SI-IP', extra={
+           'operation': 'shutdown',
+           'shutdown_type': 'user_initiated'
+       })
+       return 0
+   except Exception as e:
+       logger.error('Fatal error', extra={
+           'error': str(e),
+           'error_type': type(e).__name__,
+           'operation': 'startup'
+       })
+       return 1
 
 if __name__ == '__main__':
-    sys.exit(main())
+   sys.exit(main())

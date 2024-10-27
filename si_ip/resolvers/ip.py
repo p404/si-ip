@@ -13,7 +13,8 @@ class IPResolver:
         'https://icanhazip.com': {'weight': 9, 'retries': 0},
         'https://ifconfig.me/ip': {'weight': 8, 'retries': 0},
         'https://ipecho.net/plain': {'weight': 7, 'retries': 0},
-        'https://myexternalip.com/raw': {'weight': 6, 'retries': 0}
+        'https://myexternalip.com/raw': {'weight': 6, 'retries': 0},
+        'https://ifconfig.co':  {'weight': 5, 'retries': 0}
     }
 
     def __init__(self):
